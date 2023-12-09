@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
-* Студент: [Инга Егонская](https://up.htmlacademy.ru/ecmascript/22/user/2166645).
-* Наставник: `Неизвестно`.
+- Студент: [Инга Егонская](https://up.htmlacademy.ru/ecmascript/22/user/2166645).
+- Наставник: [Антон Попов](https://htmlacademy.ru/profile/id78239).
 
 ---
 
