@@ -21,8 +21,3 @@ export default class BoardPresenter {
     }
   }
 }
-
-/*render(new SortView(), tripEvents);
-render(new EditFormView(), tripEvents);
-render(new NewFormView(), tripEvents);
-render(new PointView(), tripEvents);*/
