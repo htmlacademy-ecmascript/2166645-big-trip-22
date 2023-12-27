@@ -1,4 +1,4 @@
-export const destinationsMocksArray = [
+export const destinationsMocks = [
   {
     id: '1d',
     description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
