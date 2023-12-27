@@ -471,22 +471,20 @@ function createEditFormTemplate(point, destinations, offers) {
 
         <div class="event__available-offers">
         ${typeOffers.map(typeOffer => `<div class="event__offer-selector">
-          <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox"
+          <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${pointId}" type="checkbox"
             name="event-offer-luggage" checked>
-            <label class="event__offer-label" for="event-offer-luggage-1">
-              <span class="event__offer-title">Add luggage</span>
+            <label class="event__offer-label" for="event-offer-${typeOffer.title}-${pointId}">
+              <span class="event__offer-title">${typeOffer.title}</span>
               &plus;&euro;&nbsp;
-              <span class="event__offer-price">50</span>
+              <span class="event__offer-price">${typeOffer.price}</span>
             </label>
           </div>`).join('')}
      </div>
       </section>` : ''}
-      <section class="event__section  event__section--destination">
+      ${pointDestination ? `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-        <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a
-          resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the
-          highest summit in the Alps, it's renowned for its skiing.</p>
-      </section>
+        <p class="event__destination-description">${description}</p>
+      </section>` : ''}
     </section>
   </form>
 </li>`;
@@ -1099,4 +1097,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.d40cb8d677c331bc9a36.js.map
+//# sourceMappingURL=bundle.2bb30fb69958ee27cfee.js.map
