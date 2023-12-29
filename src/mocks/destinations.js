@@ -5,8 +5,12 @@ export const destinationsMocks = [
     name: 'Chamonix',
     pictures: [
       {
-        src: 'http://picsum.photos/300/200?r=0.0762563005163317',
+        src: 'https://loremflickr.com/248/152?50',
         description: 'Chamonix parliament building'
+      },
+      {
+        src: 'https://loremflickr.com/248/152?10',
+        description: 'Beautiful place'
       }
     ]
   },

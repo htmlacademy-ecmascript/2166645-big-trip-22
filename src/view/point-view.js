@@ -1,5 +1,5 @@
 import {createElement} from '../render.js';
-import {humanizeTripDate} from '../utils.js';
+import {humanizeTripDate, countDifferenceBetweenDates} from '../utils.js';
 
 function createPointTemplate(point, destinations, offers) {
 
@@ -18,11 +18,11 @@ function createPointTemplate(point, destinations, offers) {
         <h3 class="event__title">${type} ${pointDestination.name}</h3>
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="2019-03-18T10:30">${humanizeTripDate(dateFrom, 'HH:m')}</time>
+            <time class="event__start-time" datetime="${dateFrom}">${humanizeTripDate(dateFrom, 'HH:m')}</time>
             &mdash;
-            <time class="event__end-time" datetime="2019-03-18T11:00">${humanizeTripDate(dateTo, 'HH:m')}</time>
+            <time class="event__end-time" datetime="${dateTo}">${humanizeTripDate(dateTo, 'HH:m')}</time>
           </p>
-          <p class="event__duration">30M</p>
+          <p class="event__duration">${countDifferenceBetweenDates(dateTo, dateFrom)}H</p>
         </div>
         <p class="event__price">
           &euro;&nbsp;<span class="event__price-value">${basePrice}</span>

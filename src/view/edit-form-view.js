@@ -1,5 +1,5 @@
 import {createElement} from '../render.js';
-import {humanizeTripDate} from '../utils.js';
+import {humanizeTripDate, takeLastWord} from '../utils.js';
 
 const POINT_TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Drive', 'Flight', 'Check-in', 'Sightseeing', 'Restaurant'];
 
@@ -37,7 +37,7 @@ function createEditFormTemplate(point, destinations, offers) {
 
       <div class="event__field-group  event__field-group--destination">
         <label class="event__label  event__type-output" for="event-destination-${pointId}">
-          ${type} /*надо с большой буквы*/
+          ${type}
         </label>
         <input class="event__input  event__input--destination" id="event-destination-${pointId}" type="text"
           name="event-destination" value="${name}" list="destination-list-${pointId}">
@@ -49,11 +49,11 @@ function createEditFormTemplate(point, destinations, offers) {
       <div class="event__field-group  event__field-group--time">
         <label class="visually-hidden" for="event-start-time-${pointId}">From</label>
         <input class="event__input  event__input--time" id="event-start-time-${pointId}" type="text"
-          name="event-start-time" value="${humanizeTripDate(dateFrom, 'D/MM/YY HH:m')}">
+          name="event-start-time" value="${humanizeTripDate(dateFrom, 'DD/MM/YY HH:m')}">
         &mdash;
         <label class="visually-hidden" for="event-end-time-${pointId}">To</label>
         <input class="event__input  event__input--time" id="event-end-time-${pointId}" type="text"
-          name="event-end-time" value="${humanizeTripDate(dateTo, 'D/MM/YY HH:m')}">
+          name="event-end-time" value="${humanizeTripDate(dateTo, 'DD/MM/YY HH:m')}">
       </div>
 
       <div class="event__field-group  event__field-group--price">
@@ -80,7 +80,7 @@ function createEditFormTemplate(point, destinations, offers) {
         ${typeOffers.map((typeOffer) => (
         `<div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${pointId}" type="checkbox"
-            name="event-offer-luggage" checked>
+            name="event-offer-${takeLastWord(typeOffer.title)}" ${pointOffers.map((offer) => offer.id).includes(typeOffer.id) ? `checked` : ''}>
             <label class="event__offer-label" for="event-offer-${typeOffer.title}-${pointId}">
               <span class="event__offer-title">${typeOffer.title}</span>
               &plus;&euro;&nbsp;
@@ -95,11 +95,18 @@ function createEditFormTemplate(point, destinations, offers) {
       `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
         <p class="event__destination-description">${description}</p>
+        ${pictures.length ? (
+        `<div class="event__photos-container">
+            <div class="event__photos-tape">
+              ${pictures.map((pic) => `<img class="event__photo" src="${pic.src}" alt="${pic.description}">`)}
+            </div>
+         </div>`
+      ) : ''}
       </section>`
     ) : ''}
-    </section>
-  </form>
-</li>`);
+    </section >
+  </form >
+</li > `);
 }
 
 export default class EditFormView {

@@ -10,7 +10,6 @@ export const pointsMocks = [
     isFavorite: false,
     offers: [
       '1.1of',
-      '1.2of',
       '1.3of'
     ],
     type: 'taxi'
@@ -24,8 +23,6 @@ export const pointsMocks = [
     destination: '5d',
     isFavorite: true,
     offers: [
-      '3.1of',
-      '3.2of',
       '3.3of'
     ],
     type: 'ship'
@@ -69,9 +66,7 @@ export const pointsMocks = [
     offers: [
       '5.1of',
       '5.2of',
-      '5.3of',
-      '5.4of',
-      '5.5of'
+      '5.4of'
     ],
     type: 'flight'
   },
