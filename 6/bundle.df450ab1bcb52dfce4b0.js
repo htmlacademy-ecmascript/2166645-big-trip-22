@@ -17,8 +17,11 @@ const destinationsMocks = [{
   description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
   name: 'Chamonix',
   pictures: [{
-    src: 'http://picsum.photos/300/200?r=0.0762563005163317',
+    src: 'https://loremflickr.com/248/152?50',
     description: 'Chamonix parliament building'
+  }, {
+    src: 'https://loremflickr.com/248/152?10',
+    description: 'Beautiful place'
   }]
 }, {
   id: '2d',
@@ -173,7 +176,7 @@ const pointsMocks = [{
   dateTo: '2019-03-19T11:22:13.375Z',
   destination: '1d',
   isFavorite: false,
-  offers: ['1.1of', '1.2of', '1.3of'],
+  offers: ['1.1of', '1.3of'],
   type: 'taxi'
 }, {
   id: '2a',
@@ -182,7 +185,7 @@ const pointsMocks = [{
   dateTo: '2022-06-11T19:35:13.375Z',
   destination: '5d',
   isFavorite: true,
-  offers: ['3.1of', '3.2of', '3.3of'],
+  offers: ['3.3of'],
   type: 'ship'
 }, {
   id: '3a',
@@ -209,7 +212,7 @@ const pointsMocks = [{
   dateTo: '2019-11-10T11:22:13.375Z',
   destination: '2d',
   isFavorite: false,
-  offers: ['5.1of', '5.2of', '5.3of', '5.4of', '5.5of'],
+  offers: ['5.1of', '5.2of', '5.4of'],
   type: 'flight'
 }, {
   id: '6a',
@@ -307,7 +310,7 @@ class TripPresenter {
     const destinations = this.pointsModel.getDestinations();
     const offers = this.pointsModel.getOffers();
     (0,_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(this.tripComponent, this.tripContainer);
-    (0,_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](), this.tripComponent.getElement());
+    (0,_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](points[0], destinations, offers), this.tripComponent.getElement());
     (0,_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_new_form_view_js__WEBPACK_IMPORTED_MODULE_1__["default"](), this.tripComponent.getElement());
     for (const point of points) {
       (0,_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_point_view_js__WEBPACK_IMPORTED_MODULE_3__["default"](point, destinations, offers), this.tripComponent.getElement());
@@ -357,8 +360,10 @@ function render(component, container, place = RenderPosition.BEFOREEND) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "countDifferenceBetweenDates": () => (/* binding */ countDifferenceBetweenDates),
 /* harmony export */   "getRandomArrayElement": () => (/* binding */ getRandomArrayElement),
-/* harmony export */   "humanizeTripDate": () => (/* binding */ humanizeTripDate)
+/* harmony export */   "humanizeTripDate": () => (/* binding */ humanizeTripDate),
+/* harmony export */   "takeLastWord": () => (/* binding */ takeLastWord)
 /* harmony export */ });
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
@@ -368,6 +373,12 @@ function getRandomArrayElement(items) {
 }
 function humanizeTripDate(tripDate, format) {
   return tripDate ? dayjs__WEBPACK_IMPORTED_MODULE_0___default()(tripDate).format(format) : '';
+}
+function countDifferenceBetweenDates(date1, date2) {
+  return dayjs__WEBPACK_IMPORTED_MODULE_0___default()(date1).diff(dayjs__WEBPACK_IMPORTED_MODULE_0___default()(date2), 'hour');
+}
+function takeLastWord(phrase) {
+  return phrase.split(' ').pop();
 }
 
 
@@ -431,7 +442,7 @@ function createEditFormTemplate(point, destinations, offers) {
 
       <div class="event__field-group  event__field-group--destination">
         <label class="event__label  event__type-output" for="event-destination-${pointId}">
-          ${type} /*надо с большой буквы*/
+          ${type}
         </label>
         <input class="event__input  event__input--destination" id="event-destination-${pointId}" type="text"
           name="event-destination" value="${name}" list="destination-list-${pointId}">
@@ -443,11 +454,11 @@ function createEditFormTemplate(point, destinations, offers) {
       <div class="event__field-group  event__field-group--time">
         <label class="visually-hidden" for="event-start-time-${pointId}">From</label>
         <input class="event__input  event__input--time" id="event-start-time-${pointId}" type="text"
-          name="event-start-time" value="${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeTripDate)(dateFrom, 'D/MM/YY HH:m')}">
+          name="event-start-time" value="${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeTripDate)(dateFrom, 'DD/MM/YY HH:m')}">
         &mdash;
         <label class="visually-hidden" for="event-end-time-${pointId}">To</label>
         <input class="event__input  event__input--time" id="event-end-time-${pointId}" type="text"
-          name="event-end-time" value="${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeTripDate)(dateTo, 'D/MM/YY HH:m')}">
+          name="event-end-time" value="${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeTripDate)(dateTo, 'DD/MM/YY HH:m')}">
       </div>
 
       <div class="event__field-group  event__field-group--price">
@@ -472,7 +483,7 @@ function createEditFormTemplate(point, destinations, offers) {
         <div class="event__available-offers">
         ${typeOffers.map(typeOffer => `<div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${pointId}" type="checkbox"
-            name="event-offer-luggage" checked>
+            name="event-offer-${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.takeLastWord)(typeOffer.title)}" ${pointOffers.map(offer => offer.id).includes(typeOffer.id) ? `checked` : ''}>
             <label class="event__offer-label" for="event-offer-${typeOffer.title}-${pointId}">
               <span class="event__offer-title">${typeOffer.title}</span>
               &plus;&euro;&nbsp;
@@ -484,10 +495,15 @@ function createEditFormTemplate(point, destinations, offers) {
       ${pointDestination ? `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
         <p class="event__destination-description">${description}</p>
+        ${pictures.length ? `<div class="event__photos-container">
+            <div class="event__photos-tape">
+              ${pictures.map(pic => `<img class="event__photo" src="${pic.src}" alt="${pic.description}">`)}
+            </div>
+         </div>` : ''}
       </section>` : ''}
-    </section>
-  </form>
-</li>`;
+    </section >
+  </form >
+</li > `;
 }
 class EditFormView {
   constructor(point, destinations, offers) {
@@ -828,11 +844,11 @@ function createPointTemplate(point, destinations, offers) {
         <h3 class="event__title">${type} ${pointDestination.name}</h3>
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="2019-03-18T10:30">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeTripDate)(dateFrom, 'HH:m')}</time>
+            <time class="event__start-time" datetime="${dateFrom}">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeTripDate)(dateFrom, 'HH:m')}</time>
             &mdash;
-            <time class="event__end-time" datetime="2019-03-18T11:00">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeTripDate)(dateTo, 'HH:m')}</time>
+            <time class="event__end-time" datetime="${dateTo}">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.humanizeTripDate)(dateTo, 'HH:m')}</time>
           </p>
-          <p class="event__duration">30M</p>
+          <p class="event__duration">${(0,_utils_js__WEBPACK_IMPORTED_MODULE_1__.countDifferenceBetweenDates)(dateTo, dateFrom)}H</p>
         </div>
         <p class="event__price">
           &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
@@ -1097,4 +1113,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.2bb30fb69958ee27cfee.js.map
+//# sourceMappingURL=bundle.df450ab1bcb52dfce4b0.js.map
