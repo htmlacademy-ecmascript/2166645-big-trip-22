@@ -1,23 +1,28 @@
-import ListPointsView from "../view/list-points-view.js";
-import NewFormView from "../view/new-form-view.js";
-import EditFormView from "../view/edit-form-view.js";
-import PointView from "../view/point-view.js";
-import {render} from "../render.js";
+import ListPointsView from '../view/list-points-view.js';
+import NewFormView from '../view/new-form-view.js';
+import EditFormView from '../view/edit-form-view.js';
+import PointView from '../view/point-view.js';
+import {render} from '../render.js';
 
 export default class TripPresenter {
-  tripComponent = new ListPointsView();
 
-  constructor({tripContainer}) {
+  constructor({tripContainer, pointsModel}) {
+    this.tripComponent = new ListPointsView();
     this.tripContainer = tripContainer;
+    this.pointsModel = pointsModel;
   }
 
   init() {
+    const points = this.pointsModel.getPoints();
+    const destinations = this.pointsModel.getDestinations();
+    const offers = this.pointsModel.getOffers();
+
     render(this.tripComponent, this.tripContainer);
-    render(new EditFormView(), this.tripComponent.getElement());
+    render(new EditFormView(points[0], destinations, offers), this.tripComponent.getElement());
     render(new NewFormView(), this.tripComponent.getElement());
 
-    for (let i = 0; i < 3; i++) {
-      render(new PointView(), this.tripComponent.getElement());
+    for (const point of points) {
+      render(new PointView(point, destinations, offers), this.tripComponent.getElement());
     }
   }
 }
