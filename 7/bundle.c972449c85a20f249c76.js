@@ -418,26 +418,29 @@ __webpack_require__.r(__webpack_exports__);
 
 const POINT_COUNT = 7;
 class PointsModel {
+  #points = null;
+  #destinations = null;
+  #offers = null;
   constructor() {
-    this.points = [];
-    this.destinations = [];
-    this.offers = [];
+    this.#points = [];
+    this.#destinations = [];
+    this.#offers = [];
   }
   init() {
-    this.points = Array.from({
+    this.#points = Array.from({
       length: POINT_COUNT
     }, _mocks_points_js__WEBPACK_IMPORTED_MODULE_0__.getRandomPoints);
-    this.destinations = _mocks_destinations_js__WEBPACK_IMPORTED_MODULE_1__.destinationsMocks;
-    this.offers = _mocks_offers_js__WEBPACK_IMPORTED_MODULE_2__.offersMocks;
+    this.#destinations = _mocks_destinations_js__WEBPACK_IMPORTED_MODULE_1__.destinationsMocks;
+    this.#offers = _mocks_offers_js__WEBPACK_IMPORTED_MODULE_2__.offersMocks;
   }
-  getPoints() {
-    return this.points;
+  get points() {
+    return this.#points;
   }
-  getDestinations() {
-    return this.destinations;
+  get destinations() {
+    return this.#destinations;
   }
-  getOffers() {
-    return this.offers;
+  get offers() {
+    return this.#offers;
   }
 }
 
@@ -465,23 +468,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class TripPresenter {
+  #tripComponent = null;
+  #tripContainer = null;
+  #pointsModel = null;
   constructor({
     tripContainer,
     pointsModel
   }) {
-    this.tripComponent = new _view_list_points_view_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    this.tripContainer = tripContainer;
-    this.pointsModel = pointsModel;
+    this.#tripComponent = new _view_list_points_view_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    this.#tripContainer = tripContainer;
+    this.#pointsModel = pointsModel;
   }
   init() {
-    const points = this.pointsModel.getPoints();
-    const destinations = this.pointsModel.getDestinations();
-    const offers = this.pointsModel.getOffers();
-    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(this.tripComponent, this.tripContainer);
-    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](points[0], destinations, offers), this.tripComponent.element);
-    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_new_form_view_js__WEBPACK_IMPORTED_MODULE_1__["default"](), this.tripComponent.element);
+    const points = this.#pointsModel.points;
+    const destinations = this.#pointsModel.destinations;
+    const offers = this.#pointsModel.offers;
+    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(this.#tripComponent, this.#tripContainer);
+    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](points[0], destinations, offers), this.#tripComponent.element);
+    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_new_form_view_js__WEBPACK_IMPORTED_MODULE_1__["default"](), this.#tripComponent.element);
     for (const point of points) {
-      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_point_view_js__WEBPACK_IMPORTED_MODULE_3__["default"](point, destinations, offers), this.tripComponent.element);
+      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_point_view_js__WEBPACK_IMPORTED_MODULE_3__["default"](point, destinations, offers), this.#tripComponent.element);
     }
   }
 }
@@ -1676,4 +1682,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.3c4911f00cf1a9ebf44b.js.map
+//# sourceMappingURL=bundle.c972449c85a20f249c76.js.map
