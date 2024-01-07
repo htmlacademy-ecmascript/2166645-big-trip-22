@@ -5,27 +5,31 @@ import {offersMocks} from '../mocks/offers.js';
 const POINT_COUNT = 7;
 
 export default class PointsModel {
+  #points = null;
+  #destinations = null;
+  #offers = null;
+
   constructor() {
-    this.points = [];
-    this.destinations = [];
-    this.offers = [];
+    this.#points = [];
+    this.#destinations = [];
+    this.#offers = [];
   }
 
   init() {
-    this.points = Array.from({length: POINT_COUNT}, getRandomPoints);
-    this.destinations = destinationsMocks;
-    this.offers = offersMocks;
+    this.#points = Array.from({length: POINT_COUNT}, getRandomPoints);
+    this.#destinations = destinationsMocks;
+    this.#offers = offersMocks;
   }
 
-  getPoints() {
-    return this.points;
+  get points() {
+    return this.#points;
   }
 
-  getDestinations() {
-    return this.destinations;
+  get destinations() {
+    return this.#destinations;
   }
 
-  getOffers() {
-    return this.offers;
+  get offers() {
+    return this.#offers;
   }
 }
