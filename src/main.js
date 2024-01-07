@@ -3,7 +3,7 @@ import FiltersView from './view/filters-view.js';
 import SortView from './view/sort-view.js';
 import TripPresenter from './presenter/trip-presenter.js';
 import PointsModel from './model/points-model.js';
-import {render, RenderPosition} from './render.js';
+import {render, RenderPosition} from './framework/render.js';
 
 const tripMainElement = document.querySelector('.trip-main');
 const tripControlsFiltersElement = tripMainElement.querySelector('.trip-controls__filters');

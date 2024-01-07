@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import {humanizeTripDate, takeLastWord} from '../utils.js';
 
 const POINT_TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Drive', 'Flight', 'Check-in', 'Sightseeing', 'Restaurant'];
@@ -109,26 +109,19 @@ function createEditFormTemplate(point, destinations, offers) {
 </li > `);
 }
 
-export default class EditFormView {
+export default class EditFormView extends AbstractView {
+  #point = null;
+  #destinations = null;
+  #offers = null;
+
   constructor(point, destinations, offers) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offers = offers;
+    super();
+    this.#point = point;
+    this.#destinations = destinations;
+    this.#offers = offers;
   }
 
-  getTemplate() {
-    return createEditFormTemplate(this.point, this.destinations, this.offers);
+  get template() {
+    return createEditFormTemplate(this.#point, this.#destinations, this.#offers);
   };
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }
