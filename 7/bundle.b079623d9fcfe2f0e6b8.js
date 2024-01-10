@@ -484,11 +484,16 @@ class TripPresenter {
     const destinations = this.#pointsModel.destinations;
     const offers = this.#pointsModel.offers;
     (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(this.#tripComponent, this.#tripContainer);
-    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](points[0], destinations, offers), this.#tripComponent.element);
     (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_new_form_view_js__WEBPACK_IMPORTED_MODULE_1__["default"](), this.#tripComponent.element);
-    for (const point of points) {
-      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_point_view_js__WEBPACK_IMPORTED_MODULE_3__["default"](point, destinations, offers), this.#tripComponent.element);
+    for (let i = 0; i < points.length; i++) {
+      this.#renderPoint(points[i], destinations, offers);
+      /*render(new PointView(points[i], destinations, offers), this.#tripComponent.element);*/
+      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](points[i], destinations, offers), this.#tripComponent.element);
     }
+  }
+  #renderPoint(point, destinations, offers) {
+    const pointComponent = new _view_point_view_js__WEBPACK_IMPORTED_MODULE_3__["default"](point, destinations, offers);
+    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(pointComponent, this.#tripComponent.element);
   }
 }
 
@@ -652,15 +657,22 @@ class EditFormView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MO
   #point = null;
   #destinations = null;
   #offers = null;
-  constructor(point, destinations, offers) {
+  #handleFormSubmit = null;
+  constructor(point, destinations, offers, onFormSubmit) {
     super();
     this.#point = point;
     this.#destinations = destinations;
     this.#offers = offers;
+    this.#handleFormSubmit = onFormSubmit;
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
   }
   get template() {
     return createEditFormTemplate(this.#point, this.#destinations, this.#offers);
   }
+  #formSubmitHandler = evt => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 }
 
 /***/ }),
@@ -988,15 +1000,22 @@ class PointView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MODUL
   #point = null;
   #destinations = null;
   #offers = null;
-  constructor(point, destinations, offers) {
+  #handleEditClick = null;
+  constructor(point, destinations, offers, onEditClick) {
     super();
     this.#point = point;
     this.#destinations = destinations;
     this.#offers = offers;
+    this.#handleEditClick = onEditClick;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
   get template() {
     return createPointTemplate(this.#point, this.#destinations, this.#offers);
   }
+  #editClickHandler = evt => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }
 
 /***/ }),
@@ -1682,4 +1701,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.c972449c85a20f249c76.js.map
+//# sourceMappingURL=bundle.b079623d9fcfe2f0e6b8.js.map
