@@ -484,15 +484,40 @@ class TripPresenter {
     const destinations = this.#pointsModel.destinations;
     const offers = this.#pointsModel.offers;
     (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(this.#tripComponent, this.#tripContainer);
-    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_new_form_view_js__WEBPACK_IMPORTED_MODULE_1__["default"](), this.#tripComponent.element);
-    for (let i = 0; i < points.length; i++) {
-      this.#renderPoint(points[i], destinations, offers);
-      /*render(new PointView(points[i], destinations, offers), this.#tripComponent.element);*/
-      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](points[i], destinations, offers), this.#tripComponent.element);
+    for (const point of points) {
+      this.#renderPoint(point, destinations, offers);
     }
   }
   #renderPoint(point, destinations, offers) {
-    const pointComponent = new _view_point_view_js__WEBPACK_IMPORTED_MODULE_3__["default"](point, destinations, offers);
+    const onEditClick = () => {
+      replacePointToForm();
+      document.addEventListener('keydown', escKeyDownHandler);
+    };
+    const onFormActions = () => {
+      replaceFormToPoint();
+      document.removeEventListener('keydown', escKeyDownHandler);
+    };
+    const onFormSubmit = () => {
+      onFormActions();
+    };
+    const onFormClose = () => {
+      onFormActions();
+    };
+    const escKeyDownHandler = evt => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        replaceFormToPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }
+    };
+    const pointComponent = new _view_point_view_js__WEBPACK_IMPORTED_MODULE_3__["default"](point, destinations, offers, onEditClick);
+    const editFormComponent = new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](point, destinations, offers, onFormSubmit, onFormClose);
+    function replaceFormToPoint() {
+      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.replace)(pointComponent, editFormComponent);
+    }
+    function replacePointToForm() {
+      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.replace)(editFormComponent, pointComponent);
+    }
     (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.render)(pointComponent, this.#tripComponent.element);
   }
 }
@@ -658,13 +683,16 @@ class EditFormView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MO
   #destinations = null;
   #offers = null;
   #handleFormSubmit = null;
-  constructor(point, destinations, offers, onFormSubmit) {
+  #handleFormClose = null;
+  constructor(point, destinations, offers, onFormSubmit, onFormClose) {
     super();
     this.#point = point;
     this.#destinations = destinations;
     this.#offers = offers;
     this.#handleFormSubmit = onFormSubmit;
+    this.#handleFormClose = onFormClose;
     this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#formCloseHandler);
   }
   get template() {
     return createEditFormTemplate(this.#point, this.#destinations, this.#offers);
@@ -672,6 +700,10 @@ class EditFormView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MO
   #formSubmitHandler = evt => {
     evt.preventDefault();
     this.#handleFormSubmit();
+  };
+  #formCloseHandler = evt => {
+    evt.preventDefault();
+    this.#handleFormClose();
   };
 }
 
@@ -1701,4 +1733,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.b079623d9fcfe2f0e6b8.js.map
+//# sourceMappingURL=bundle.623b3783072d7e219d46.js.map
