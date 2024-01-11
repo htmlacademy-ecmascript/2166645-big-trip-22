@@ -21,17 +21,62 @@ export default class TripPresenter {
     const offers = this.#pointsModel.offers;
 
     render(this.#tripComponent, this.#tripContainer);
-    render(new NewFormView(), this.#tripComponent.element);
 
-    for (let i = 0; i < points.length; i++) {
-      this.#renderPoint(points[i], destinations, offers);
-      /*render(new PointView(points[i], destinations, offers), this.#tripComponent.element);*/
-      render(new EditFormView(points[i], destinations, offers), this.#tripComponent.element);
+    for (const point of points) {
+      this.#renderPoint(point, destinations, offers);
     }
   }
 
   #renderPoint(point, destinations, offers) {
-    const pointComponent = new PointView(point, destinations, offers);
-    render(pointComponent, this.#tripComponent.element);
+    const onEditClick = () => {
+      replacePointToForm();
+      document.addEventListener('keydown', escKeyDownHandler);
+    };
+
+    const onFormActions = () => {
+      replaceFormToPoint();
+      document.removeEventListener('keydown', escKeyDownHandler);
+    }
+
+    const onFormSubmit = () => {
+      onFormActions();
+    }
+
+    const onFormClose = () => {
+      onFormActions();
+    }
+
+    const escKeyDownHandler = (evt) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        replaceFormToPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }
+    };
+
+    const pointComponent = new PointView(
+      point,
+      destinations,
+      offers,
+      onEditClick
+    );
+
+    const editFormComponent = new EditFormView(
+      point,
+      destinations,
+      offers,
+      onFormSubmit,
+      onFormClose
+    );
+
+    function replaceFormToPoint() {
+      replace(pointComponent, editFormComponent);
+    }
+
+    function replacePointToForm() {
+      replace(editFormComponent, pointComponent);
+    }
+
+    render(pointComponent, this.#tripComponent.element)
   }
 }
