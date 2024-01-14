@@ -3,11 +3,13 @@ import NewFormView from '../view/new-form-view.js';
 import EditFormView from '../view/edit-form-view.js';
 import PointView from '../view/point-view.js';
 import {render, replace, remove} from '../framework/render.js';
+import NoPointsView from '../view/no-points-view.js';
 
 export default class TripPresenter {
   #tripComponent = null;
   #tripContainer = null;
   #pointsModel = null;
+  #pointsList = null;
 
   constructor({tripContainer, pointsModel}) {
     this.#tripComponent = new ListPointsView();
@@ -20,8 +22,14 @@ export default class TripPresenter {
     const destinations = this.#pointsModel.destinations;
     const offers = this.#pointsModel.offers;
 
+    this.#pointsList = [...this.#pointsModel.points];
+
     render(this.#tripComponent, this.#tripContainer);
 
+    if (Array.from(this.#pointsList).length === 0) {
+      render(new NoPointsView(), this.#tripComponent.element);
+      return;
+    }
     for (const point of points) {
       this.#renderPoint(point, destinations, offers);
     }
