@@ -1,9 +1,9 @@
 import AbstractView from "../framework/view/abstract-view.js";
-import {FILTERS} from "../const.js";
+import {FilterMessage} from "../const.js";
 
 function createNoPointsTemplate() {
   return (`
-  <p class="trip-events__msg">${FILTERS.EVERYTHING}</p>
+  <p class="trip-events__msg">${FilterMessage.EVERYTHING}</p>
   `);
 }
 

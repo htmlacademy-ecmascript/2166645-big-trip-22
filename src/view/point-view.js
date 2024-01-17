@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {humanizeTripDate, countDifferenceBetweenDates} from '../utils.js';
+import {humanizeTripDate, countDifferenceBetweenDates} from '../utils/utils.js';
 
 function createPointTemplate(point, destinations, offers) {
 

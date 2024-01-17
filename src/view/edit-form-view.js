@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {humanizeTripDate, takeLastWord} from '../utils.js';
+import {humanizeTripDate, takeLastWord} from '../utils/utils.js';
 
 const POINT_TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Drive', 'Flight', 'Check-in', 'Sightseeing', 'Restaurant'];
 
