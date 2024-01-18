@@ -33,6 +33,15 @@ export default class TripPresenter {
   }
 
   #renderPoint(point, destinations, offers) {
+
+    const escKeyDownHandler = (evt) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        replaceFormToPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }
+    };
+
     const onEditClick = () => {
       replacePointToForm();
       document.addEventListener('keydown', escKeyDownHandler);
@@ -49,14 +58,6 @@ export default class TripPresenter {
 
     const onFormClose = () => {
       onFormActions();
-    };
-
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceFormToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
     };
 
     const pointComponent = new PointView(
@@ -76,7 +77,7 @@ export default class TripPresenter {
 
     function replaceFormToPoint() {
       replace(pointComponent, editFormComponent);
-    }
+    };
 
     function replacePointToForm() {
       replace(editFormComponent, pointComponent);
