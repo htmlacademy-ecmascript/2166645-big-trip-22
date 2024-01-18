@@ -861,7 +861,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _framework_view_abstract_view_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../framework/view/abstract-view.js */ "./src/framework/view/abstract-view.js");
 
 function createListPointsTemplate() {
-  return `<ul class="trip-events__list"></ul>`;
+  return `
+  <ul class="trip-events__list"></ul>
+  `;
 }
 class ListPointsView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   get template() {
@@ -1877,4 +1879,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.38b931129f11268e9fba.js.map
+//# sourceMappingURL=bundle.72c772bfab5208ed1cc8.js.map
