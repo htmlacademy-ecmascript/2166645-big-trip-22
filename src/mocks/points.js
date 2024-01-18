@@ -81,7 +81,7 @@ export const pointsMocks = [
     offers: [],
     type: 'sightseeing'
   }
-]
+];
 
 function getRandomPoints() {
   return getRandomArrayElement(pointsMocks);

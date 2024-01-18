@@ -41,15 +41,15 @@ export default class TripPresenter {
     const onFormActions = () => {
       replaceFormToPoint();
       document.removeEventListener('keydown', escKeyDownHandler);
-    }
+    };
 
     const onFormSubmit = () => {
       onFormActions();
-    }
+    };
 
     const onFormClose = () => {
       onFormActions();
-    }
+    };
 
     const escKeyDownHandler = (evt) => {
       if (evt.key === 'Escape') {
@@ -82,6 +82,6 @@ export default class TripPresenter {
       replace(editFormComponent, pointComponent);
     }
 
-    render(pointComponent, this.#tripComponent.element)
+    render(pointComponent, this.#tripComponent.element);
   }
 }

@@ -9,7 +9,7 @@ function createFilterItemTemplate(filter, isChecked) {
        <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${type}" ${isChecked ? 'checked' : ''}>
        <label class="trip-filters__filter-label" for="filter-${type}">${type}</label>
       </div>
-      `)
+      `);
 }
 
 function createFilterTemplate(filterItems) {
@@ -33,5 +33,5 @@ export default class FiltersView extends AbstractView {
 
   get template() {
     return createFilterTemplate(this.#filters);
-  };
+  }
 }

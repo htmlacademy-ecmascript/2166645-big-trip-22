@@ -129,7 +129,7 @@ export default class EditFormView extends AbstractView {
 
   get template() {
     return createEditFormTemplate(this.#point, this.#destinations, this.#offers);
-  };
+  }
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
@@ -139,5 +139,5 @@ export default class EditFormView extends AbstractView {
   #formCloseHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormClose();
-  }
+  };
 }

@@ -1,6 +1,6 @@
 import {filter} from '../filter.js';
 
-function generateFilter(points) {
+function generateFilter() {
   return Object.entries(filter).map(
     ([filterType, filterMessage]) => ({
       type: filterType,
