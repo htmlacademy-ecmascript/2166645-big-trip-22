@@ -557,6 +557,13 @@ class TripPresenter {
     }
   }
   #renderPoint(point, destinations, offers) {
+    const escKeyDownHandler = evt => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        replaceFormToPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }
+    };
     const onEditClick = () => {
       replacePointToForm();
       document.addEventListener('keydown', escKeyDownHandler);
@@ -571,18 +578,12 @@ class TripPresenter {
     const onFormClose = () => {
       onFormActions();
     };
-    const escKeyDownHandler = evt => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceFormToPoint();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
     const pointComponent = new _view_point_view_js__WEBPACK_IMPORTED_MODULE_3__["default"](point, destinations, offers, onEditClick);
     const editFormComponent = new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_2__["default"](point, destinations, offers, onFormSubmit, onFormClose);
     function replaceFormToPoint() {
       (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.replace)(pointComponent, editFormComponent);
     }
+    ;
     function replacePointToForm() {
       (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_4__.replace)(editFormComponent, pointComponent);
     }
@@ -745,7 +746,7 @@ function createEditFormTemplate(point, destinations, offers) {
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         <div class="event__available-offers">
-        ${typeOffers.map(typeOffer => `<div class="event__offer-selector">
+      ${typeOffers.map(typeOffer => `<div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${pointId}" type="checkbox"
             name="event-offer-${(0,_utils_utils_js__WEBPACK_IMPORTED_MODULE_1__.takeLastWord)(typeOffer.title)}" ${pointOffers.map(offer => offer.id).includes(typeOffer.id) ? `checked` : ''}>
             <label class="event__offer-label" for="event-offer-${typeOffer.title}-${pointId}">
@@ -753,8 +754,8 @@ function createEditFormTemplate(point, destinations, offers) {
               &plus;&euro;&nbsp;
               <span class="event__offer-price">${typeOffer.price}</span>
             </label>
-          </div>`).join('')}
-     </div>
+        </div>`).join('')}
+        </div>
       </section>` : ''}
       ${pointDestination ? `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -1879,4 +1880,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.531c83bb984750cadc62.js.map
+//# sourceMappingURL=bundle.2602b0ec6a7254a2cf48.js.map
