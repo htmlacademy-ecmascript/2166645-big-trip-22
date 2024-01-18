@@ -605,7 +605,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _filter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../filter.js */ "./src/filter.js");
 
-function generateFilter(points) {
+function generateFilter() {
   return Object.entries(_filter_js__WEBPACK_IMPORTED_MODULE_0__.filter).map(([filterType, filterMessage]) => ({
     type: filterType,
     message: filterMessage
@@ -1879,4 +1879,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.72c772bfab5208ed1cc8.js.map
+//# sourceMappingURL=bundle.531c83bb984750cadc62.js.map
