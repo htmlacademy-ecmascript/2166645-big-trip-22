@@ -14,4 +14,4 @@ const filter = {
 };
 
 
-export {filter}
+export {filter};

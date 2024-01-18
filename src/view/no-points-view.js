@@ -1,5 +1,5 @@
-import AbstractView from "../framework/view/abstract-view.js";
-import {FilterMessage} from "../const.js";
+import AbstractView from '../framework/view/abstract-view.js';
+import {FilterMessage} from '../const.js';
 
 function createNoPointsTemplate() {
   return (`
