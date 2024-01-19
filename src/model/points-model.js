@@ -1,4 +1,4 @@
-import {getRandomPoints, pointsMocks} from '../mocks/points.js';
+import {getRandomPoints} from '../mocks/points.js';
 import {destinationsMocks} from '../mocks/destinations.js';
 import {offersMocks} from '../mocks/offers.js';
 

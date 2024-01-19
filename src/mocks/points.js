@@ -1,4 +1,4 @@
-import {getRandomArrayElement} from '../utils.js';
+import {getRandomArrayElement} from '../utils/utils.js';
 
 export const pointsMocks = [
   {
@@ -81,7 +81,7 @@ export const pointsMocks = [
     offers: [],
     type: 'sightseeing'
   }
-]
+];
 
 function getRandomPoints() {
   return getRandomArrayElement(pointsMocks);

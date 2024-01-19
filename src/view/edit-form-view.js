@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {humanizeTripDate, takeLastWord} from '../utils.js';
+import {humanizeTripDate, takeLastWord} from '../utils/utils.js';
 
 const POINT_TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Drive', 'Flight', 'Check-in', 'Sightseeing', 'Restaurant'];
 
@@ -77,7 +77,7 @@ function createEditFormTemplate(point, destinations, offers) {
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
         <div class="event__available-offers">
-        ${typeOffers.map((typeOffer) => (
+      ${typeOffers.map((typeOffer) => (
         `<div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${pointId}" type="checkbox"
             name="event-offer-${takeLastWord(typeOffer.title)}" ${pointOffers.map((offer) => offer.id).includes(typeOffer.id) ? `checked` : ''}>
@@ -86,9 +86,9 @@ function createEditFormTemplate(point, destinations, offers) {
               &plus;&euro;&nbsp;
               <span class="event__offer-price">${typeOffer.price}</span>
             </label>
-          </div>`
-      )).join('')}
-     </div>
+        </div>`)
+      ).join('')}
+        </div>
       </section>`
       : ''}
       ${pointDestination ? (
@@ -129,7 +129,7 @@ export default class EditFormView extends AbstractView {
 
   get template() {
     return createEditFormTemplate(this.#point, this.#destinations, this.#offers);
-  };
+  }
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
@@ -139,5 +139,5 @@ export default class EditFormView extends AbstractView {
   #formCloseHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormClose();
-  }
+  };
 }
