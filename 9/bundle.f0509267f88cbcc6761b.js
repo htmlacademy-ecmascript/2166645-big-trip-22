@@ -635,8 +635,6 @@ class TripPresenter {
   }
   #renderPoint(point) {
     const pointPresenter = new _point_presenter_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
-      destinations: this.#destinations,
-      offers: this.#offers,
       pointListContainer: this.#listPointsComponent.element
     });
     pointPresenter.init(point, this.#destinations, this.#offers);
@@ -924,7 +922,13 @@ class EditFormView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MO
   #offers = null;
   #handleFormSubmit = null;
   #handleFormClose = null;
-  constructor(point, destinations, offers, onFormSubmit, onFormClose) {
+  constructor({
+    point,
+    destinations,
+    offers,
+    onFormSubmit,
+    onFormClose
+  }) {
     super();
     this.#point = point;
     this.#destinations = destinations;
@@ -1119,7 +1123,12 @@ class PointView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MODUL
   #destinations = null;
   #offers = null;
   #handleEditClick = null;
-  constructor(point, destinations, offers, onEditClick) {
+  constructor({
+    point,
+    destinations,
+    offers,
+    onEditClick
+  }) {
     super();
     this.#point = point;
     this.#destinations = destinations;
@@ -1844,4 +1853,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.6629d2c55af17d3ec8b1.js.map
+//# sourceMappingURL=bundle.f0509267f88cbcc6761b.js.map
