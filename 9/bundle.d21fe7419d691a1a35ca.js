@@ -602,8 +602,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _view_no_points_view_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../view/no-points-view.js */ "./src/view/no-points-view.js");
 /* harmony import */ var _point_presenter_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./point-presenter.js */ "./src/presenter/point-presenter.js");
 
-/*import EditFormView from '../view/edit-form-view.js';
-import PointView from '../view/point-view.js';*/
 
 
 
@@ -611,7 +609,6 @@ class TripPresenter {
   #tripComponent = null;
   #tripContainer = null;
   #pointsModel = null;
-  #listPointsComponent = new _view_list_points_view_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
   #noPointsComponent = new _view_no_points_view_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
   #points = [];
   #destinations = [];
@@ -635,7 +632,7 @@ class TripPresenter {
   }
   #renderPoint(point) {
     const pointPresenter = new _point_presenter_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
-      pointListContainer: this.#listPointsComponent.element
+      pointListContainer: this.#tripComponent.element
     });
     pointPresenter.init(point, this.#destinations, this.#offers);
   }
@@ -653,89 +650,6 @@ class TripPresenter {
     this.#renderPoints();
   }
 }
-
-/*export default class TripPresenter {
-  #tripComponent = null;
-  #tripContainer = null;
-  #pointsModel = null;
-
-  constructor({tripContainer, pointsModel}) {
-    this.#tripComponent = new ListPointsView();
-    this.#tripContainer = tripContainer;
-    this.#pointsModel = pointsModel;
-  }
-
-  init() {
-    const points = this.#pointsModel.points;
-    const destinations = this.#pointsModel.destinations;
-    const offers = this.#pointsModel.offers;
-
-    render(this.#tripComponent, this.#tripContainer);
-
-    if (points.length === 0) {
-      render(new NoPointsView(), this.#tripComponent.element, RenderPosition.AFTERBEGIN);
-      return;
-    }
-
-    for (const point of points) {
-      this.#renderPoint(point, destinations, offers);
-    }
-  }
-
-  /* #renderPoint(point, destinations, offers) {
-
-     const escKeyDownHandler = (evt) => {
-       if (evt.key === 'Escape') {
-         evt.preventDefault();
-         replaceFormToPoint();
-         document.removeEventListener('keydown', escKeyDownHandler);
-       }
-     };
-
-     const onEditClick = () => {
-       replacePointToForm();
-       document.addEventListener('keydown', escKeyDownHandler);
-     };
-
-     const onFormActions = () => {
-       replaceFormToPoint();
-       document.removeEventListener('keydown', escKeyDownHandler);
-     };
-
-     const onFormSubmit = () => {
-       onFormActions();
-     };
-
-     const onFormClose = () => {
-       onFormActions();
-     };
-
-     const pointComponent = new PointView(
-       point,
-       destinations,
-       offers,
-       onEditClick
-     );
-
-     const editFormComponent = new EditFormView(
-       point,
-       destinations,
-       offers,
-       onFormSubmit,
-       onFormClose
-     );
-
-     const replaceFormToPoint = () => {
-       replace(pointComponent, editFormComponent);
-     };
-
-     const replacePointToForm = () => {
-       replace(editFormComponent, pointComponent);
-     }
-
-     render(pointComponent, this.#tripComponent.element);
-   }
-}*/
 
 /***/ }),
 
@@ -1853,4 +1767,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.f0509267f88cbcc6761b.js.map
+//# sourceMappingURL=bundle.d21fe7419d691a1a35ca.js.map
