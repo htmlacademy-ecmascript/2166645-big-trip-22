@@ -633,13 +633,13 @@ class TripPresenter {
   #renderNoPoints() {
     (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_1__.render)(this.#noPointsComponent, this.#tripComponent.element, _framework_render_js__WEBPACK_IMPORTED_MODULE_1__.RenderPosition.AFTERBEGIN);
   }
-  #renderPoint() {
+  #renderPoint(point) {
     const pointPresenter = new _point_presenter_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
       destinations: this.#destinations,
       offers: this.#offers,
       pointListContainer: this.#listPointsComponent.element
     });
-    pointPresenter.init(point, destinations, offers);
+    pointPresenter.init(point, this.#destinations, this.#offers);
   }
   #renderPoints() {
     for (const point of this.#points) {
@@ -1844,4 +1844,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.d75d197fff685f69bf0e.js.map
+//# sourceMappingURL=bundle.6629d2c55af17d3ec8b1.js.map
