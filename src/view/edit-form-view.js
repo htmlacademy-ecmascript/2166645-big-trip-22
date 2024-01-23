@@ -116,7 +116,7 @@ export default class EditFormView extends AbstractView {
   #handleFormSubmit = null;
   #handleFormClose = null;
 
-  constructor(point, destinations, offers, onFormSubmit, onFormClose) {
+  constructor({point, destinations, offers, onFormSubmit, onFormClose}) {
     super();
     this.#point = point;
     this.#destinations = destinations;
