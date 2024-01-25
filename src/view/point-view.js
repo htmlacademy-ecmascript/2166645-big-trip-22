@@ -79,5 +79,5 @@ export default class PointView extends AbstractView {
   #favoriteClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleFavoriteClick();
-  }
+  };
 }
