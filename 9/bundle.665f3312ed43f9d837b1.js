@@ -525,27 +525,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING'
+};
 class PointPresenter {
   #pointListContainer = null;
+  #handleDataChange = null;
+  #handleModeChange = null;
   #pointComponent = null;
   #editFormComponent = null;
   #point = null;
   #destinations = null;
   #offers = null;
+  #mode = Mode.DEFAULT;
   constructor({
-    pointListContainer
+    pointListContainer,
+    onDataChange,
+    onModeChange
   }) {
     this.#pointListContainer = pointListContainer;
+    this.#handleDataChange = onDataChange;
+    this.#handleModeChange = onModeChange;
   }
   init(point, destinations, offers) {
     this.#point = point;
     this.#destinations = destinations;
     this.#offers = offers;
+    const prevPointComponent = this.#pointComponent;
+    const prevEditPointComponent = this.#editFormComponent;
     this.#pointComponent = new _view_point_view_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
       point: this.#point,
       destinations: this.#destinations,
       offers: this.#offers,
-      onEditClick: this.#handleEditClick
+      onEditClick: this.#handleEditClick,
+      onFavoriteClick: this.#handleFavoriteClick
     });
     this.#editFormComponent = new _view_edit_form_view_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
       point: this.#point,
@@ -554,7 +568,27 @@ class PointPresenter {
       onFormSubmit: this.#handleFormSubmit,
       onFormClose: this.#handleFormClose
     });
-    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.render)(this.#pointComponent, this.#pointListContainer);
+    if (prevPointComponent === null || prevEditPointComponent === null) {
+      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.render)(this.#pointComponent, this.#pointListContainer);
+      return;
+    }
+    if (this.#mode === Mode.DEFAULT) {
+      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.replace)(this.#pointComponent, prevPointComponent);
+    }
+    if (this.#mode === Mode.EDITING) {
+      (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.replace)(this.#pointComponent, prevEditPointComponent);
+    }
+    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.remove)(prevPointComponent);
+    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.remove)(prevEditPointComponent);
+  }
+  destroy() {
+    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.remove)(this.#pointComponent);
+    (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.remove)(this.#editFormComponent);
+  }
+  resetView() {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#replaceFormToPoint();
+    }
   }
   #escKeyDownHandler = evt => {
     if (evt.key === 'Escape') {
@@ -565,22 +599,33 @@ class PointPresenter {
   #handleEditClick = () => {
     this.#replacePointToForm();
   };
+  #handleFavoriteClick = () => {
+    this.#handleDataChange({
+      ...this.#point,
+      isFavorite: !this.#point.isFavorite
+    });
+  };
   #onFormActions = () => {
     this.#replaceFormToPoint();
   };
-  #handleFormSubmit = () => {
+  #handleFormSubmit = point => {
     this.#onFormActions();
+    this.#handleDataChange(point);
   };
-  #handleFormClose = () => {
+  #handleFormClose = point => {
     this.#onFormActions();
+    this.#handleDataChange(point);
   };
   #replaceFormToPoint = () => {
     (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.replace)(this.#pointComponent, this.#editFormComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
+    this.#mode = Mode.DEFAULT;
   };
   #replacePointToForm = () => {
     (0,_framework_render_js__WEBPACK_IMPORTED_MODULE_0__.replace)(this.#editFormComponent, this.#pointComponent);
     document.addEventListener('keydown', this.#escKeyDownHandler);
+    this.#handleModeChange();
+    this.#mode = Mode.EDITING;
   };
 }
 
@@ -601,6 +646,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _framework_render_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../framework/render.js */ "./src/framework/render.js");
 /* harmony import */ var _view_no_points_view_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../view/no-points-view.js */ "./src/view/no-points-view.js");
 /* harmony import */ var _point_presenter_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./point-presenter.js */ "./src/presenter/point-presenter.js");
+/* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/utils.js */ "./src/utils/utils.js");
+
 
 
 
@@ -613,6 +660,7 @@ class TripPresenter {
   #points = [];
   #destinations = [];
   #offers = [];
+  #pointPresenter = new Map();
   constructor({
     tripContainer,
     pointsModel
@@ -632,10 +680,20 @@ class TripPresenter {
   }
   #renderPoint(point) {
     const pointPresenter = new _point_presenter_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
-      pointListContainer: this.#tripComponent.element
+      pointListContainer: this.#tripComponent.element,
+      onDataChange: this.#handlePointDataChange,
+      onModeChange: this.#handleModeChange
     });
+    this.#pointPresenter.set(point.id, pointPresenter);
     pointPresenter.init(point, this.#destinations, this.#offers);
   }
+  #handlePointDataChange = updatedPointEvent => {
+    this.#points = (0,_utils_utils_js__WEBPACK_IMPORTED_MODULE_4__.updateItem)(this.#points, updatedPointEvent);
+    this.#pointPresenter.get(updatedPointEvent.id).init(updatedPointEvent);
+  };
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach(presenter => presenter.resetView());
+  };
   #renderPoints() {
     for (const point of this.#points) {
       this.#renderPoint(point);
@@ -688,7 +746,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "countDifferenceBetweenDates": () => (/* binding */ countDifferenceBetweenDates),
 /* harmony export */   "getRandomArrayElement": () => (/* binding */ getRandomArrayElement),
 /* harmony export */   "humanizeTripDate": () => (/* binding */ humanizeTripDate),
-/* harmony export */   "takeLastWord": () => (/* binding */ takeLastWord)
+/* harmony export */   "takeLastWord": () => (/* binding */ takeLastWord),
+/* harmony export */   "updateItem": () => (/* binding */ updateItem)
 /* harmony export */ });
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
@@ -704,6 +763,9 @@ function countDifferenceBetweenDates(date1, date2) {
 }
 function takeLastWord(phrase) {
   return phrase.split(' ').pop();
+}
+function updateItem(items, updatedItem) {
+  return items.map(item => item.id === updatedItem.id ? updatedItem : item);
 }
 
 
@@ -1020,7 +1082,7 @@ function createPointTemplate(point, destinations, offers) {
             <span class="event__offer-price">${offer.price}</span>
           </li>`).join('')}
         </ul >
-        <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active' : ''} type="button">
+        <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active' : ''}" type="button">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
             <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
@@ -1037,18 +1099,22 @@ class PointView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MODUL
   #destinations = null;
   #offers = null;
   #handleEditClick = null;
+  #handleFavoriteClick = null;
   constructor({
     point,
     destinations,
     offers,
-    onEditClick
+    onEditClick,
+    onFavoriteClick
   }) {
     super();
     this.#point = point;
     this.#destinations = destinations;
     this.#offers = offers;
     this.#handleEditClick = onEditClick;
+    this.#handleFavoriteClick = onFavoriteClick;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
   }
   get template() {
     return createPointTemplate(this.#point, this.#destinations, this.#offers);
@@ -1056,6 +1122,10 @@ class PointView extends _framework_view_abstract_view_js__WEBPACK_IMPORTED_MODUL
   #editClickHandler = evt => {
     evt.preventDefault();
     this.#handleEditClick();
+  };
+  #favoriteClickHandler = evt => {
+    evt.preventDefault();
+    this.#handleFavoriteClick();
   };
 }
 
@@ -1767,4 +1837,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.d21fe7419d691a1a35ca.js.map
+//# sourceMappingURL=bundle.665f3312ed43f9d837b1.js.map
