@@ -16,4 +16,8 @@ function takeLastWord(phrase) {
   return phrase.split(' ').pop();
 }
 
-export {getRandomArrayElement, humanizeTripDate, countDifferenceBetweenDates, takeLastWord};
+function updateItem(items, updatedItem) {
+  return items.map((item) => item.id === updatedItem.id ? updatedItem : item);
+}
+
+export {getRandomArrayElement, humanizeTripDate, countDifferenceBetweenDates, takeLastWord, updateItem};
