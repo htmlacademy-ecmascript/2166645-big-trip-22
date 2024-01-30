@@ -12,4 +12,8 @@ const FilterMessage = {
   FUTURE: 'There are no future events now'
 };
 
+const SortType = {
+
+};
+
 export {FilterType, FilterMessage};
