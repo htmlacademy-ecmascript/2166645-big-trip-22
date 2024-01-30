@@ -399,6 +399,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "pointsMocks": () => (/* binding */ pointsMocks)
 /* harmony export */ });
 /* harmony import */ var _utils_utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/utils.js */ "./src/utils/utils.js");
+/* harmony import */ var nanoid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! nanoid */ "./node_modules/nanoid/index.browser.js");
+
 
 const pointsMocks = [{
   id: '1a',
@@ -456,7 +458,10 @@ const pointsMocks = [{
   type: 'sightseeing'
 }];
 function getRandomPoints() {
-  return (0,_utils_utils_js__WEBPACK_IMPORTED_MODULE_0__.getRandomArrayElement)(pointsMocks);
+  return {
+    ident: (0,nanoid__WEBPACK_IMPORTED_MODULE_1__.nanoid)(),
+    ...(0,_utils_utils_js__WEBPACK_IMPORTED_MODULE_0__.getRandomArrayElement)(pointsMocks)
+  };
 }
 
 
@@ -686,11 +691,11 @@ class TripPresenter {
       onModeChange: this.#handleModeChange
     });
     pointPresenter.init(point, this.#destinations, this.#offers);
-    this.#pointPresenter.set(point.id, pointPresenter);
+    this.#pointPresenter.set(point.ident, pointPresenter);
   }
   #handlePointDataChange = updatedPointEvent => {
     this.#points = (0,_utils_utils_js__WEBPACK_IMPORTED_MODULE_4__.updateItem)(this.#points, updatedPointEvent);
-    this.#pointPresenter.get(updatedPointEvent.id).init(updatedPointEvent, this.#destinations, this.#offers);
+    this.#pointPresenter.get(updatedPointEvent.ident).init(updatedPointEvent, this.#destinations, this.#offers);
   };
   #handleModeChange = () => {
     this.#pointPresenter.forEach(presenter => presenter.resetView());
@@ -766,7 +771,7 @@ function takeLastWord(phrase) {
   return phrase.split(' ').pop();
 }
 function updateItem(items, updatedItem) {
-  return items.map(item => item.id === updatedItem.id ? updatedItem : item);
+  return items.map(item => item.ident === updatedItem.ident ? updatedItem : item);
 }
 
 
@@ -1154,22 +1159,22 @@ function createSortTemplate() {
       </div>
 
       <div class="trip-sort__item  trip-sort__item--event">
-        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" data-sort-type="">
+        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" disabled>
         <label class="trip-sort__btn" for="sort-event">Event</label>
       </div>
 
       <div class="trip-sort__item  trip-sort__item--time">
-        <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time" data-sort-type="">
+        <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time">
         <label class="trip-sort__btn" for="sort-time">Time</label>
       </div>
 
       <div class="trip-sort__item  trip-sort__item--price">
-        <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price" data-sort-type="">
+        <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price">
         <label class="trip-sort__btn" for="sort-price">Price</label>
       </div>
 
       <div class="trip-sort__item  trip-sort__item--offer">
-        <input id="sort-offer" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-offer" data-sort-type="">
+        <input id="sort-offer" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-offer" disabled>
         <label class="trip-sort__btn" for="sort-offer">Offers</label>
       </div>
     </form>`;
@@ -1721,6 +1726,76 @@ function styleTagTransform(css, styleElement) {
 }
 module.exports = styleTagTransform;
 
+/***/ }),
+
+/***/ "./node_modules/nanoid/index.browser.js":
+/*!**********************************************!*\
+  !*** ./node_modules/nanoid/index.browser.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "customAlphabet": () => (/* binding */ customAlphabet),
+/* harmony export */   "customRandom": () => (/* binding */ customRandom),
+/* harmony export */   "nanoid": () => (/* binding */ nanoid),
+/* harmony export */   "random": () => (/* binding */ random),
+/* harmony export */   "urlAlphabet": () => (/* reexport safe */ _url_alphabet_index_js__WEBPACK_IMPORTED_MODULE_0__.urlAlphabet)
+/* harmony export */ });
+/* harmony import */ var _url_alphabet_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./url-alphabet/index.js */ "./node_modules/nanoid/url-alphabet/index.js");
+
+let random = bytes => crypto.getRandomValues(new Uint8Array(bytes))
+let customRandom = (alphabet, defaultSize, getRandom) => {
+  let mask = (2 << (Math.log(alphabet.length - 1) / Math.LN2)) - 1
+  let step = -~((1.6 * mask * defaultSize) / alphabet.length)
+  return (size = defaultSize) => {
+    let id = ''
+    while (true) {
+      let bytes = getRandom(step)
+      let j = step
+      while (j--) {
+        id += alphabet[bytes[j] & mask] || ''
+        if (id.length === size) return id
+      }
+    }
+  }
+}
+let customAlphabet = (alphabet, size = 21) =>
+  customRandom(alphabet, size, random)
+let nanoid = (size = 21) =>
+  crypto.getRandomValues(new Uint8Array(size)).reduce((id, byte) => {
+    byte &= 63
+    if (byte < 36) {
+      id += byte.toString(36)
+    } else if (byte < 62) {
+      id += (byte - 26).toString(36).toUpperCase()
+    } else if (byte > 62) {
+      id += '-'
+    } else {
+      id += '_'
+    }
+    return id
+  }, '')
+
+
+/***/ }),
+
+/***/ "./node_modules/nanoid/url-alphabet/index.js":
+/*!***************************************************!*\
+  !*** ./node_modules/nanoid/url-alphabet/index.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "urlAlphabet": () => (/* binding */ urlAlphabet)
+/* harmony export */ });
+const urlAlphabet =
+  'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict'
+
+
 /***/ })
 
 /******/ 	});
@@ -1838,4 +1913,4 @@ tripPresenter.init();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.3168f706bd128e5033d0.js.map
+//# sourceMappingURL=bundle.ba0ef02b72f9b30ceb4a.js.map
