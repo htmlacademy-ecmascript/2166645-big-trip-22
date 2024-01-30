@@ -44,12 +44,12 @@ export default class TripPresenter {
       onModeChange: this.#handleModeChange,
     });
     pointPresenter.init(point, this.#destinations, this.#offers);
-    this.#pointPresenter.set(point.id, pointPresenter);
+    this.#pointPresenter.set(point.ident, pointPresenter);
   }
 
   #handlePointDataChange = (updatedPointEvent) => {
     this.#points = updateItem(this.#points, updatedPointEvent);
-    this.#pointPresenter.get(updatedPointEvent.id).init(updatedPointEvent, this.#destinations, this.#offers);
+    this.#pointPresenter.get(updatedPointEvent.ident).init(updatedPointEvent, this.#destinations, this.#offers);
   };
 
   #handleModeChange = () => {

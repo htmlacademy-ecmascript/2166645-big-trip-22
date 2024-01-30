@@ -17,7 +17,7 @@ function takeLastWord(phrase) {
 }
 
 function updateItem(items, updatedItem) {
-  return items.map((item) => item.id === updatedItem.id ? updatedItem : item);
+  return items.map((item) => item.ident === updatedItem.ident ? updatedItem : item);
 }
 
 export {getRandomArrayElement, humanizeTripDate, countDifferenceBetweenDates, takeLastWord, updateItem};
